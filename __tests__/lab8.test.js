@@ -68,7 +68,19 @@ describe('Basic user flow for Website', () => {
     // TODO - Step 3
     // Query select all of the <product-item> elements, then for every single product element
     // get the shadowRoot and query select the button inside, and click on it.
+    const prodItems = await page.$$('product-item');
+    //since the first item was already added to cart, click again will remove it from the cart
+    for(let i = 1; i < prodItems.length; i++){
+      console.log(`Click item ${i+1}/${prodItems.length}`);
+      let shadowRootProd = await prodItems[i].getProperty('shadowRoot');
+      let prodButton = await shadowRootProd.$('button');
+      await prodButton.click();
+    }
     // Check to see if the innerText of #cart-count is 20
+    let cart = await page.$('#cart-count');
+    let cntCart = await cart.getProperty('innerText');
+    let txtCntCart = await cntCart.jsonValue();
+    expect(txtCntCart).toBe("20"); 
   }, 10000);
 
   // Check to make sure that after you reload the page it remembers all of the items in your cart
@@ -77,7 +89,21 @@ describe('Basic user flow for Website', () => {
     // TODO - Step 4
     // Reload the page, then select all of the <product-item> elements, and check every
     // element to make sure that all of their buttons say "Remove from Cart".
+    await page.reload();
+    const prodItems = await page.$$('product-item');
+    for(let i = 1; i < prodItems.length; i++){
+      console.log(`Checking item ${i+1}/${prodItems.length} after reload`);
+      let shadowRootProd = await prodItems[i].getProperty('shadowRoot');
+      let prodButton = await shadowRootProd.$('button');
+      let innerTextButton = await prodButton.getProperty('innerText');
+      let textButton = await innerTextButton.jsonValue();
+      expect(textButton).toBe("Remove from Cart");
+    }
     // Also check to make sure that #cart-count is still 20
+    let cart = await page.$('#cart-count');
+    let cntCart = await cart.getProperty('innerText');
+    let txtCntCart = await cntCart.jsonValue();
+    expect(txtCntCart).toBe("20"); 
   }, 10000);
 
   // Check to make sure that the cart in localStorage is what you expect
