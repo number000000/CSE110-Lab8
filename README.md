@@ -8,3 +8,5 @@ Name: Meihui Liu
 4. Yes, I would use unit test to test the "max message length" feature since it is a single and small feature that doesn't invole interaction with other components.
 
 ## Screenshots:
+<img width="377" alt="ss1" src="https://user-images.githubusercontent.com/49219958/202931662-ad0ca786-1bc6-4580-be12-c387ada17c3d.png">
+<img width="491" alt="ss2" src="https://user-images.githubusercontent.com/49219958/202931663-010ad7fa-bf83-4b99-9a55-03c6e86057f4.png">
